@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="centered-div">
+    {% from "includes/formhelpers.html" import render_field %}
+<form method="post">
+  <dl>
+    {{ render_field(form.fullname, class="form-control") }}
+    {{ render_field(form.email, class="form-control") }}
+    {{ render_field(form.username, class="form-control") }}
+    {{ render_field(form.password, class="form-control") }}
+    {{ render_field(form.confirmPassword, class="form-control") }}
+  </dl>
+  <div class="button-container">
+    <button type="submit" class="btn btn-primary">Sign Up</button>
+  </div>
+  <a href="/login">I already have an account.</a>
+</form>
+</div>
+
+{% endblock body %}
