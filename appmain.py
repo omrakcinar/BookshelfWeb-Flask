@@ -41,8 +41,10 @@ def loginpage():
             userCredentials = cursor.fetchone()
             usersPassword = userCredentials["password"]
             if sha256_crypt.verify(passwordInput,usersPassword):
+                session["isLoggedIn"] = True
+                session["loggedUserName"] = usernameInput
                 flash("Login successfull","success")
-                return render_template("loginpage.html", form = form)
+                return render_template("home.html", loggedUserName = session["loggedUserName"])
             else:
                 flash("Username or password is wrong.","danger")
                 return render_template("loginpage.html", form = form)
@@ -76,6 +78,11 @@ def registerpage():
     else:
         return render_template("registerpage.html", form = form)
     
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("loginpage"))
 
 
 
