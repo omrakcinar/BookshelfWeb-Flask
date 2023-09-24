@@ -17,10 +17,24 @@ app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 mysql = MySQL(app)
 
 
+# DECORATORS
+def loginRequired(func):
+        @wraps(func)
+        def decoratedFunc(*args,**kwargs):
+            if "isLoggedIn" in session:
+                return func(*args,**kwargs)
+            else:
+                flash("You need to log in first.","warning")
+                return redirect(url_for("loginpage"))
+        return decoratedFunc
+
+
+
 # Index
 @app.route("/")
+@loginRequired
 def index():
-    return redirect(url_for("loginpage"))
+    return render_template("home.html", loggedUserName = session["loggedUserName"])
 
 
 # Login Page
@@ -44,7 +58,7 @@ def loginpage():
                 session["isLoggedIn"] = True
                 session["loggedUserName"] = usernameInput
                 flash("Login successfull","success")
-                return render_template("home.html", loggedUserName = session["loggedUserName"])
+                return redirect(url_for("index"))
             else:
                 flash("Username or password is wrong.","danger")
                 return render_template("loginpage.html", form = form)
