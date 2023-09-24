@@ -2,7 +2,7 @@ from flask import Flask, render_template, flash, redirect, url_for, session, log
 from flask_mysqldb import MySQL
 from functools import wraps
 from passlib.hash import sha256_crypt
-from customforms import LoginForm, RegisterForm
+from customforms import LoginForm, RegisterForm, NewBookForm
 
 
 app = Flask(__name__)
@@ -17,7 +17,7 @@ app.config["MYSQL_CURSORCLASS"] = "DictCursor"
 mysql = MySQL(app)
 
 
-# DECORATORS
+# Decorators
 def loginRequired(func):
         @wraps(func)
         def decoratedFunc(*args,**kwargs):
@@ -91,6 +91,16 @@ def registerpage():
             return render_template("registerpage.html", form = form)
     else:
         return render_template("registerpage.html", form = form)
+    
+
+@app.route("/addbook", methods = ["GET","POST"])
+@loginRequired
+def addbook():
+    form = NewBookForm(request.form)
+    if request.method == "POST" and form.validate():
+        return render_template("addbook.html")
+    else:
+        return render_template("addbook.html", form = form)
     
 
 @app.route("/logout")

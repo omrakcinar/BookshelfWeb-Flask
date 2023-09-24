@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="centered-div">
+    {% from "includes/formhelpers.html" import render_field %}
+<form method="post" enctype="multipart/form-data">
+  <dl>
+    {{ render_field(form.bookphoto, class="form-control") }}
+    {{ render_field(form.bookname, class="form-control") }}
+    {{ render_field(form.author, class="form-control") }}
+    {{ render_field(form.publisher, class="form-control") }}
+    {{ render_field(form.pagecount, class="form-control") }}
+  </dl>
+  <div class="button-container">
+    <button type="submit" class="btn btn-primary">Add Book</button>
+  </div>
+</form>
+</div>
+
+{% endblock body %}
