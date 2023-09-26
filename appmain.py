@@ -98,6 +98,7 @@ def registerpage():
         return render_template("registerpage.html", form = form)
     
 
+# Add Book Page
 @app.route("/addbook", methods = ["GET","POST"])
 @loginRequired
 def addbook():
@@ -118,6 +119,40 @@ def addbook():
     else:
         return render_template("addbook.html", form = form)
     
+
+# Book Details
+@app.route("/book/<string:bookid>")
+@loginRequired
+def bookdetail(bookid):
+    cursor = mysql.connection.cursor()
+    query = "SELECT * FROM books WHERE id = %s AND owner = %s"
+    queryResult = cursor.execute(query,(bookid,session["loggedUserName"]))
+    if queryResult > 0:
+        selectedBook = cursor.fetchone()
+        return render_template("bookdetail.html",selectedBook = selectedBook)
+    else:
+        flash("This book doesn't exists","warning")
+        return redirect(url_for("index"))
+    
+
+# Delete Book
+@app.route("/deletebook/<string:bookid>")
+@loginRequired
+def deletebook(bookid):
+    cursor = mysql.connection.cursor()
+    query = "SELECT * FROM books WHERE id = %s AND owner = %s"
+    queryResult = cursor.execute(query,(bookid,session["loggedUserName"]))
+    if queryResult > 0:
+        deleteQuery = "DELETE FROM books WHERE id = %s AND owner = %s"
+        cursor.execute(deleteQuery,(bookid,session["loggedUserName"]))
+        mysql.connection.commit()
+        flash("Deleted book successfully.","info")
+        return redirect(url_for("index"))
+    else:
+        flash("This book doesn't exists or you are unauthorized to delete it.","danger")
+        return redirect(url_for("index"))
+
+
 
 @app.route("/logout")
 def logout():

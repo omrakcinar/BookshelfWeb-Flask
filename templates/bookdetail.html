@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<div class="container p-3 my-3 bg-dark text-white">
+
+    <h3>{{selectedBook.bookname}}</h3>
+    <hr>
+    <p>Author : {{selectedBook.author}}</p>
+    <p>Publisher : {{selectedBook.publisher}}</p>
+    <p>Page Count : {{selectedBook.pagecount}}</p>
+
+</div>
+
+
+
+
+
+{% endblock body %}
