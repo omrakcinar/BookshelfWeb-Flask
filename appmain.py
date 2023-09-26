@@ -3,18 +3,11 @@ from flask_mysqldb import MySQL
 from functools import wraps
 from passlib.hash import sha256_crypt
 from customforms import LoginForm, RegisterForm, NewBookForm
+import json
 
 
 app = Flask(__name__)
-
-
-app.secret_key="AKC1234"
-app.config["MYSQL_HOST"] = "192.168.1.119"
-app.config["MYSQL_PORT"] = 3306
-app.config["MYSQL_USER"] = "omer2"
-app.config["MYSQL_PASSWORD"] = "password"
-app.config["MYSQL_DB"] = "bookshelf"
-app.config["MYSQL_CURSORCLASS"] = "DictCursor"
+app.config.from_file("config.json", load=json.load)
 mysql = MySQL(app)
 
 
