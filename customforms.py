@@ -1,5 +1,4 @@
-from wtforms import Form, StringField, PasswordField, validators, TextAreaField, FileField
-from werkzeug.utils import secure_filename
+from wtforms import Form, StringField, PasswordField, validators, TextAreaField, IntegerField
 
 class LoginForm(Form):
     username = StringField("Username",validators=[
@@ -31,7 +30,6 @@ class RegisterForm(Form):
 
 
 class NewBookForm(Form):
-    bookphoto = FileField("Book Photo")
     bookname = StringField("Book Name",validators=[
         validators.DataRequired()
     ])
@@ -41,6 +39,6 @@ class NewBookForm(Form):
     publisher = StringField("Publisher",validators=[
         validators.DataRequired()
     ])
-    pagecount = StringField("Page Count",validators=[
+    pagecount = IntegerField("Page Count",validators=[
         validators.DataRequired()
     ])

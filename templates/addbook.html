@@ -6,7 +6,6 @@
     {% from "includes/formhelpers.html" import render_field %}
 <form method="post" enctype="multipart/form-data">
   <dl>
-    {{ render_field(form.bookphoto, class="form-control") }}
     {{ render_field(form.bookname, class="form-control") }}
     {{ render_field(form.author, class="form-control") }}
     {{ render_field(form.publisher, class="form-control") }}

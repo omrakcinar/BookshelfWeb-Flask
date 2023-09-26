@@ -3,16 +3,16 @@
 {% block body %}
 
 <div class="centered-div">
-    {% from "includes/formhelpers.html" import render_field %}
+  {% from "includes/formhelpers.html" import render_field %}
 <form method="post">
-  <dl>
-    {{ render_field(form.username, class="form-control") }}
-    {{ render_field(form.password, class="form-control") }}
-  </dl>
-  <div class="button-container">
-    <button type="submit" class="btn btn-primary">Login</button>
-  </div>
-  <a href="/register">I don't have an account.</a>
+<dl>
+  {{ render_field(form.username, class="form-control") }}
+  {{ render_field(form.password, class="form-control") }}
+</dl>
+<div class="button-container">
+  <button type="submit" class="btn btn-primary">Login</button>
+</div>
+<a href="/register">I don't have an account.</a>
 </form>
 </div>
 

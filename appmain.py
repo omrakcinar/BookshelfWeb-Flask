@@ -99,7 +99,17 @@ def registerpage():
 def addbook():
     form = NewBookForm(request.form)
     if request.method == "POST" and form.validate():
-        return render_template("addbook.html")
+        booknameEntry = form.bookname.data
+        authorEntry = form.author.data
+        publisherEntry = form.publisher.data
+        pagecountEntry = form.pagecount.data
+
+        cursor = mysql.connection.cursor()
+        addBookQuery = "INSERT INTO books(bookname,author,publisher,pagecount) VALUES (%s,%s,%s,%s)"
+        cursor.execute(addBookQuery,(booknameEntry,authorEntry,publisherEntry,pagecountEntry))
+        mysql.connection.commit()
+        flash("New book added to your bookshelf.","info")
+        return redirect(url_for("index"))
     else:
         return render_template("addbook.html", form = form)
     
