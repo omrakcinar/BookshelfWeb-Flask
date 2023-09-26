@@ -35,7 +35,11 @@ def loginRequired(func):
 @app.route("/")
 @loginRequired
 def index():
-    return render_template("home.html", loggedUserName = session["loggedUserName"])
+    cursor = mysql.connection.cursor()
+    searchQuery = "SELECT * FROM books WHERE owner = %s"
+    cursor.execute(searchQuery,(session["loggedUserName"],))
+    booklist = cursor.fetchall()
+    return render_template("home.html", loggedUserName = session["loggedUserName"], booklist = booklist)
 
 
 # Login Page
@@ -103,10 +107,11 @@ def addbook():
         authorEntry = form.author.data
         publisherEntry = form.publisher.data
         pagecountEntry = form.pagecount.data
+        owner = session["loggedUserName"]
 
         cursor = mysql.connection.cursor()
-        addBookQuery = "INSERT INTO books(bookname,author,publisher,pagecount) VALUES (%s,%s,%s,%s)"
-        cursor.execute(addBookQuery,(booknameEntry,authorEntry,publisherEntry,pagecountEntry))
+        addBookQuery = "INSERT INTO books(bookname,author,publisher,pagecount,owner) VALUES (%s,%s,%s,%s,%s)"
+        cursor.execute(addBookQuery,(booknameEntry,authorEntry,publisherEntry,pagecountEntry,owner))
         mysql.connection.commit()
         flash("New book added to your bookshelf.","info")
         return redirect(url_for("index"))

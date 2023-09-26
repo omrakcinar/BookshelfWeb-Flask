@@ -1,1 +1,38 @@
 {% extends "layout.html" %}
+
+{% block body %}
+
+<h3>My Books</h3>
+
+{% if booklist %}
+
+<table class="table table-hover table-dark">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Bookname</th>
+        <th scope="col">Author</th>
+        <th scope="col">Publisher</th>
+        <th scope="col">Page Count</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in booklist %}
+      <tr>
+        <th scope="row">{{book.id}}</th>
+        <td><strong><a href="/book/{{book.id}}">{{book.bookname}}</a></strong></td>
+        <td>{{book.author}}</td>
+        <td>{{book.publisher}}</td>
+        <td>{{book.pagecount}}</td>
+        <td><a href="deletebook/{{book.id}}" class="btn btn-danger">X</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% else %}
+<div class="alert alert-warning">There are no books here yet. Add one to see here.</div>
+{% endif %}
+
+{% endblock body %}
